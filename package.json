@@ -1,0 +1,23 @@
+{
+  "name": "react-boilerplate",
+  "version": "0.1.0",
+  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Alberto Gasparin",
+  "license": "MIT",
+  "devDependencies": {
+    "jsx-loader": "^0.12.2",
+    "react-hot-loader": "^1.1.3",
+    "css-loader": "^0.9.1",
+    "style-loader": "^0.8.3",
+    "sass-loader": "^0.3.1",
+    "imports-loader": "^0.6.3",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0"
+  },
+  "dependencies": {
+    
+  }
+}

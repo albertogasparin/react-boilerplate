@@ -1,0 +1,21 @@
+{
+  "name": "react-boilerplate",
+  "version": "0.1.0",
+  "authors": [
+    "Alberto Gasparin <albertogasparin@gmail.com>"
+  ],
+  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.12.2",
+    "react-router": "~0.11.6"
+  }
+}
