@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * _utils.scss
+ ******************************************************************************/
+
+
+// PX to EM conversion
+@function em($target, $context: $base-font-size) {
+  @if $target == 0 { @return 0 }
+  @return $target / $context + 0em;
+}
+
+
+@mixin font-smoothing() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+@mixin css-arrow($size, $border-width, $color, $orientation) {
+  content: '';
+  position: absolute;
+  width: $size;
+  height: $size;
+  top: 50%;
+  margin-top: -( $size / 2);
+  border: 0 solid $color;
+  transform: rotate(-45deg);
+
+  @if $orientation == "up" {
+    border-top-width: $border-width;
+    border-right-width: $border-width;
+  }
+
+  @if $orientation == "down" {
+    border-bottom-width: $border-width;
+    border-left-width: $border-width;
+    margin-top: -$size;
+  }
+
+  @if $orientation == "left" {
+    border-top-width: $border-width;
+    border-left-width: $border-width;
+  }
+
+  @if $orientation == "right" {
+    border-bottom-width: $border-width;
+    border-right-width: $border-width;
+  }
+}
+

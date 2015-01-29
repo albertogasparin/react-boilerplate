@@ -1,8 +1,6 @@
 var React = require("react");
 var Router = require("react-router");
 
-// require("react-tap-event-plugin")();
-
 
 // polyfill
 if(!Object.assign) {

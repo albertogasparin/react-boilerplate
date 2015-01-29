@@ -2,6 +2,14 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isProduction = process.env.NODE_ENV == "production";
 
+var cssLoader = 'css!sass?outputStyle=compressed';
+
+if(!isProduction) {
+  cssLoader = 'css?sourceMap' 
+            + '!autoprefixer?{browsers:["last 3 version", "IE 9"]}'
+            + '!sass?outputStyle=expanded&sourceMapEmbed=true';
+}
+
 
 var config = {
   addVendor: function (name, path) {
@@ -30,8 +38,12 @@ var config = {
   module: {
     noParse: [],
     loaders: [
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css?sourceMap!sass?outputStyle=expanded&sourceMapEmbed=true') },
       { test: /\.jsx$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ },
+      { test: /\.scss$/, loaders: ['style', cssLoader] },
+      { test: /\.(png|jpg|jpeg|gif|svg)/, loaders: ["url?limit=10000"] },
+      { test: /\.woff/, loaders: ['url?limit=50000'] },
+      { test: /\.(ttf|eot)/, loaders: ['file'] },
+      { test: /\.html/, loaders: ['html'] },
     ]
   },
 

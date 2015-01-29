@@ -1,0 +1,40 @@
+// Typography
+// -------------------------
+
+$base-font-size: 16px; // The font size set on the root html element.
+$base-line-height: 24px; // This line-height determines the basic unit of vertical rhythm.
+$base-rhythm-unit: 8px;
+
+$sans-serif: Helvetica, sans-serif;
+$base-font-family: $sans-serif;
+
+
+
+// Media queries
+// -------------------------
+
+$small: max-width 650px;
+$mid: 651px;
+$large: 951px;
+$xlarge: 1250px;
+$mid-only: $mid $large;
+
+$highres: -webkit-min-device-pixel-ratio 2, min-resolution 192dpi, min-resolution 2dppx;
+
+
+
+// Colors
+// -------------------------
+
+$text-color: #333333;
+
+$primary-color: #289470;
+
+$secondary-color: #20A46D;
+
+
+
+// Utility vars
+// -------------------------
+
+$transparent-gif: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7';

@@ -1,7 +1,7 @@
 var React = require("react");
 var RouteHandler = require("react-router").RouteHandler;
 
-require("./style.scss");
+require("./application.scss");
 
 var Application = React.createClass({
   render: function() {
