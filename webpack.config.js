@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isProduction = process.env.NODE_ENV == "production";
 
 var definePlugin = new webpack.DefinePlugin({
@@ -24,26 +25,32 @@ var config = {
     vendors: []
   },
   output: {
-    path: __dirname+'/build/',
-    filename: 'bundle.js',
-    publicPath: '/public/'
+    filename: '[name].js',
+    path: __dirname+'/assets',
+    publicPath: '/assets/'
   },
+  
+  module: {
+    noParse: [],
+    loaders: [
+      { test: /\.jsx$/, loaders: ['jsx?harmony'], exclude: /node_modules/ }, // 'react-hot'
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css?sourceMap!sass?outputStyle=expanded&sourceMapEmbed=true') },
+    ]
+  },
+
   plugins: [
     new webpack.ProvidePlugin({
       'window.React': 'react', // needed by react-router
       // 'window.jQuery': 'jquery'
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("css/[name].css", {
+      disable: false,
+      allChunks: true
+    }),
     new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
     definePlugin
   ],
-  module: {
-    noParse: [],
-    loaders: [
-      { test: /\.jsx$/, loaders: ['jsx?harmony'], exclude: /node_modules/ }, // 'react-hot'
-      { test: /\.scss$/, loader: 'style!css!sass?outputStyle=expanded' },
-    ]
-  }
 };
 
 // Use bower instead of node require
@@ -53,7 +60,7 @@ config.addVendor('reflux', '/reflux/dist/reflux'+ (isProduction?'.min':'') +'.js
 
 
 if (!isProduction) {
-  // config.devtool = '#eval'; // This is not as dirty as it looks. It just generates source maps without being crazy slow.
+  config.devtool = 'sourcemap';
 }
 
 
