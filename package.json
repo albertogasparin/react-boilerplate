@@ -1,7 +1,7 @@
 {
   "name": "react-boilerplate",
   "version": "0.1.0",
-  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "description": "Boilerplate for Webpack + ReactJS + SCSS with hot code reloading",
   "scripts": {
     "start": "node server.js"
   },
@@ -18,5 +18,9 @@
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "react": "^0.12.2",
+    "react-router": "^0.11.6",
+    "reflux": "^0.2.4"
+  }
 }

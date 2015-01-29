@@ -2,9 +2,6 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isProduction = process.env.NODE_ENV == "production";
 
-var definePlugin = new webpack.DefinePlugin({
-  IS_CLIENT: "true"
-});
 
 var config = {
   addVendor: function (name, path) {
@@ -21,8 +18,8 @@ var config = {
     extensions: ['', '.js', '.jsx']
   },
   entry: {
-    app: ['webpack-dev-server/client?http://0.0.0.0:3000', 'webpack/hot/dev-server', './app/main.jsx'],
-    vendors: []
+    app: ['./app/main.jsx'],
+    vendors: ['react', 'react-router', 'reflux']
   },
   output: {
     filename: '[name].js',
@@ -33,34 +30,27 @@ var config = {
   module: {
     noParse: [],
     loaders: [
-      { test: /\.jsx$/, loaders: ['jsx?harmony'], exclude: /node_modules/ }, // 'react-hot'
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style','css?sourceMap!sass?outputStyle=expanded&sourceMapEmbed=true') },
+      { test: /\.jsx$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ },
     ]
   },
 
   plugins: [
-    new webpack.ProvidePlugin({
-      'window.React': 'react', // needed by react-router
-      // 'window.jQuery': 'jquery'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin("css/[name].css", {
-      disable: false,
-      allChunks: true
-    }),
+    // new ExtractTextPlugin("css/[name].css", { allChunks: true }),
     new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
-    definePlugin
   ],
 };
 
-// Use bower instead of node require
-config.addVendor('react', '/react/react-with-addons'+ (isProduction?'.min':'') +'.js');
-config.addVendor('react-router', '/react-router/dist/react-router'+ (isProduction?'.min':'') +'.js');
-config.addVendor('reflux', '/reflux/dist/reflux'+ (isProduction?'.min':'') +'.js');
+// For bower vendors
+// config.addVendor('reflux', '/reflux/dist/reflux'+ (isProduction?'.min':'') +'.js');
 
 
 if (!isProduction) {
-  config.devtool = 'sourcemap';
+  // allow hot reload
+  config.entry.app.unshift('webpack-dev-server/client?http://0.0.0.0:3000', 'webpack/hot/dev-server');
+  config.plugins.unshift( new webpack.HotModuleReplacementPlugin() );
+  // add sourcemaps
+  config.devtool = 'eval-source-map';
 }
 
 
