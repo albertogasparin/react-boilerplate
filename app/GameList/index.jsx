@@ -1,23 +1,36 @@
+// vendor modules require
 var React = require("react"),
     Reflux = require("reflux"),
-    RouteHandler = require("react-router").RouteHandler;
+    Router = require("react-router");
 
+// app modules require
 var Actions = require("../actions"),
     GameListStore = require("../stores/gameList");
 
+// shorthands
+var { Route, DefaultRoute, RouteHandler, Link } = Router;
 
-// require("./application.scss");
+
+require("./gamelist.scss");
 
 
 var GameListItem = React.createClass({
-  propTypes: {
-    title: React.PropTypes.string,
-    id: React.PropTypes.number.isRequired
+  // propTypes: {
+  //   title: React.PropTypes.string,
+  //   id: React.PropTypes.number.isRequired
+  // },
+
+  handleDeleteItem: function (ev) {
+    ev.preventDefault();
+    Actions.deleteItem( this.props.item.id );
   },
+
   render: function () {
+    var item = this.props.item;
     return (
       <li className="GameListItem">
-        {this.props.id}
+        <Link className="GameListItem-link" to="game" params={{id: item.id}}>{item.id} {item.title}</Link>
+        <button className="GameListItem-delete" onClick={this.handleDeleteItem}>×</button>
       </li>
     );
   }
@@ -40,13 +53,16 @@ var GameList = React.createClass({
     var list = this.state.list;
 
     return (
-      <div className="GameList">
-        <ul>
-          { list.map( function (item) {
-            return <GameListItem id={item.id} key={item.id}/>
-          }) }
-        </ul>
-        <button onClick={this.handleAddItem}>Add new item</button>
+      <div className="game-section g-column">
+        <div className="GameList g-column g-md33">
+          <ul className="GameList-items">
+            { list.map( function (item) {
+              return <GameListItem item={item} key={item.id}/>
+            }) }
+          </ul>
+          <button className="GameList-addItem" onClick={this.handleAddItem}>Add new item</button>
+        </div>
+        <RouteHandler {...this.props}/>
       </div>
     );
   }

@@ -1,5 +1,10 @@
 var Reflux = require('reflux'),
-    Actions = require('../actions');
+    axios = require('axios');
+
+
+// app modules require
+var Actions = require('../actions');
+
 
 
 // Creates a DataStore
@@ -7,28 +12,81 @@ var GameListStore = Reflux.createStore({
 
   listenables: [Actions],
 
+  init: function () {
+    // object collection
+    this.list = [{ id: 1, title: 'Dummy' }, { id: 2, title: 'Dummy 2' }];
+  },
+
   // this will be called by all listening components as they register their listeners
   getInitialState: function() {
-    // object collection
-    this.list = [{ id: Date.now(), title: 'Dummy' }];
     return this.list;
   },
 
-
-  // called whenever we change a list. normally this would mean a database API call
-  updateList: function(list){
-    // localStorage.setItem(localStorageKey, JSON.stringify(list));
-    // if we used a real database, we would likely do the below in a callback
-    this.list = list;
-    this.trigger(list); // sends the updated list to all listening components
+  findItemById: function (id) {
+    for (var i = 0, j = this.list.length; i < j; i++) {
+      if (this.list[i].id == id) {
+        return this.list[i];
+      }
+    }
+    return null;
   },
 
+  updateItem: function (newData) {
+    var item = this.findItemById(newData.id);
 
+    if(!item) {
+      item = newData;
+    } else {
+      for (var key in newData) {
+        item[key] = newData[key];
+      }
+    }
+
+    item.loaded = true;
+    this.trigger(this.list, 'update', item);
+  },
+
+  onFetchItem: function(id) { 
+    var item = this.findItemById(id);
+    
+    // axios.get(url, function(response) {
+    //   if (response.ok) {
+    //     makeRequest.completed(response.body);
+    //   } else {
+    //     makeRequest.failed(response.error);
+    //   }
+    // }
+    if(item && item.loaded) {
+      return Actions.fetchItem.completed({});
+    }
+
+    setTimeout( function () {
+      var data = { id: id, description: 'Description loaded' };
+      Actions.fetchItem.completed(data);
+      // Actions.fetchItem.failed(data);
+    }, 1000);
+  },
+
+  onFetchItemCompleted: function (data) {
+    this.updateItem(data);
+  },
+  
   onAddItem: function(title) {
     var newItem = { id: Date.now(), title: title },
         newList = this.list.concat(newItem);
-    this.updateList(newList);
+
+    this.list = newList;
+    this.trigger(this.list, 'add', newItem); // sends the updated list to all listening components
   },
+
+
+  onDeleteItem: function (id) {
+    this.list = this.list.filter(function (item, index) {
+      return item.id != id;
+    });
+
+    this.trigger(this.list, 'delete');
+  }
 
 
 });
@@ -37,3 +95,40 @@ var GameListStore = Reflux.createStore({
 
 
 module.exports = GameListStore;
+
+
+
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(fun/*, thisArg*/) {
+    'use strict';
+
+    if (this === void 0 || this === null) {
+      throw new TypeError();
+    }
+
+    var t = Object(this);
+    var len = t.length >>> 0;
+    if (typeof fun !== 'function') {
+      throw new TypeError();
+    }
+
+    var res = [];
+    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+    for (var i = 0; i < len; i++) {
+      if (i in t) {
+        var val = t[i];
+
+        // NOTE: Technically this should Object.defineProperty at
+        //       the next index, as push can be affected by
+        //       properties on Object.prototype and Array.prototype.
+        //       But that method's new, and collisions should be
+        //       rare, so use the more-compatible alternative.
+        if (fun.call(thisArg, val, i, t)) {
+          res.push(val);
+        }
+      }
+    }
+
+    return res;
+  };
+}

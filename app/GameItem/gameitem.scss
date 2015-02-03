@@ -1,0 +1,25 @@
+@import '../scss/_default';
+
+.GameItem {
+  position: relative;
+}
+
+.GameItemDetails {
+  padding: 10px;
+}
+
+
+.GameItemDetails.is-loading {
+  visibility: hidden;
+
+  &:before {
+    content: 'Loading...';
+    visibility: visible;
+  }
+}
+
+
+.GameItemDetails-title {
+  margin: 0;
+  font-size: 1.5em;
+}

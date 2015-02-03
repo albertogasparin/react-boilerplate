@@ -1,8 +1,10 @@
 var Reflux = require('reflux');
 
-var Actions = Reflux.createActions([
-  "addItem"
-]);
+var Actions = Reflux.createActions({
+  "addItem": {},
+  "fetchItem": { asyncResult: true },
+  "deleteItem": {}
+});
 
 
 // Actions.addItem.preEmit = function() { 

@@ -1,0 +1,65 @@
+@import '../scss/_default';
+
+.GameList {
+  padding: 10px;
+  background: #EEE;  
+}
+
+
+.GameList-items {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+
+.GameListItem {
+  position: relative;
+  border-bottom: 1px solid #DDD;
+  line-height: 36px;
+}
+
+.GameListItem.is-enter {
+  transition: all 0.5s ease 0s;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.GameListItem.is-enter-active {
+  max-height: 100px;
+}
+
+.GameListItem.is-leave {
+  transform: translateX(0);
+  max-height: 100px;
+  overflow: hidden;
+  transition: transform 0.8s ease 0s, max-height 0.5s ease 0.3s;
+}
+
+.GameListItem.is-leave-active {
+  max-height: 0;
+  transform: translateX(-200%);
+}
+
+
+.GameListItem-link {
+
+  &.active {
+    color: #F60;
+  }
+}
+
+.GameListItem-delete {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  background: transparent;
+  border: none;
+}
+
+
+.GameList-addItem {
+  &:before {
+    content: '+ ';
+    font-size: 1.4em;
+  }
+}
