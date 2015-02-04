@@ -1,5 +1,5 @@
 // vendor modules require
-var React = require("react"),
+var React = require("react/addons"),
     Reflux = require("reflux"),
     Router = require("react-router");
 
@@ -9,6 +9,7 @@ var Actions = require("../actions"),
 
 // shorthands
 var { Route, DefaultRoute, RouteHandler, Link } = Router;
+var { CSSTransitionGroup } = React.addons;
 
 
 require("./gamelist.scss");
@@ -55,11 +56,11 @@ var GameList = React.createClass({
     return (
       <div className="game-section g-column">
         <div className="GameList g-column g-md33">
-          <ul className="GameList-items">
+          <CSSTransitionGroup component="ul" className="GameList-items" transitionName="is">
             { list.map( function (item) {
               return <GameListItem item={item} key={item.id}/>
             }) }
-          </ul>
+          </CSSTransitionGroup>
           <button className="GameList-addItem" onClick={this.handleAddItem}>Add new item</button>
         </div>
         <RouteHandler {...this.props}/>

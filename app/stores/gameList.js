@@ -14,7 +14,7 @@ var GameListStore = Reflux.createStore({
 
   init: function () {
     // object collection
-    this.list = [{ id: 1, title: 'Dummy' }, { id: 2, title: 'Dummy 2' }];
+    this.list = [{ id: 1, title: 'First' }, { id: 2, title: 'Second' }];
   },
 
   // this will be called by all listening components as they register their listeners
@@ -42,7 +42,6 @@ var GameListStore = Reflux.createStore({
       }
     }
 
-    item.loaded = true;
     this.trigger(this.list, 'update', item);
   },
 
@@ -56,18 +55,27 @@ var GameListStore = Reflux.createStore({
     //     makeRequest.failed(response.error);
     //   }
     // }
-    if(item && item.loaded) {
-      return Actions.fetchItem.completed({});
+    
+    if(item && !item.status) {
+
+      item.status = 'loading';
+
+      setTimeout( function () {
+        var data = { id: id, description: 'Description loaded' };
+        Actions.fetchItem.completed(data);
+        // Actions.fetchItem.failed(data);
+      }, 2000);
     }
 
-    setTimeout( function () {
-      var data = { id: id, description: 'Description loaded' };
-      Actions.fetchItem.completed(data);
-      // Actions.fetchItem.failed(data);
-    }, 1000);
+    if(!item) {
+      Actions.fetchItem.failed();
+    }
+    
+    this.trigger(this.list);
   },
 
   onFetchItemCompleted: function (data) {
+    data.status = 'loaded';
     this.updateItem(data);
   },
   

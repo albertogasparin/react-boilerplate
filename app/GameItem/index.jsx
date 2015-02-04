@@ -9,27 +9,38 @@ var Actions = require("../actions"),
 
 // shorthands
 var { Route, DefaultRoute, RouteHandler, Link } = Router;
-
+var { CSSTransitionGroup } = React.addons;
 
 
 require("./gameitem.scss");
 
 
-var GameItemDetails = React.createClass({
+var GameItem = React.createClass({
   render: function () {
     var cx = React.addons.classSet,
         item = this.props.item,
         content;
 
-    var classes = cx({
-      'GameItemDetails': true,
-      'is-loading': !item.loaded
-    });
+    if (item.status == 'loading') {
+      content = (
+        <span className="GameItem-loader" key={item.status}></span>
+      );
+    }
+
+    if (item.status == 'loaded') {
+      content = (
+        <div className="GameItem-content" key={item.status}>
+          <h1 className="GameItem-title">{item.title}</h1>
+          <p className="GameItem-desc">{item.description}</p>
+        </div>
+      );
+    }
 
     return (
-      <div className={classes}>
-        <h1 className="GameItemDetails-title">{item.id}</h1>
-        <p className="GameItemDetails-desc">{item.description}</p>
+      <div className="GameItem">
+        <CSSTransitionGroup component="div" transitionName="is">
+          {content}
+        </CSSTransitionGroup>
       </div>
     );
   }
@@ -37,7 +48,7 @@ var GameItemDetails = React.createClass({
 
 
 
-var GameItem = React.createClass({
+var GameItemWrapper = React.createClass({
 
   mixins: [Router.Navigation, Reflux.listenTo(GameListStore,"onGameListChange")],
 
@@ -69,14 +80,18 @@ var GameItem = React.createClass({
   render: function () {
     var item = this.state.item;
     
+    if(!item.id) {
+      item.id = this.props.params.id;
+    }
+
     return (
-      <div className="GameItem g-column g-md66">
-        <GameItemDetails item={item} key={item.id} />
-      </div>
+      <CSSTransitionGroup component="div" className="GameItemWrapper g-column g-md66 g-noPad" transitionName="is">
+        <GameItem item={item} key={item.id} />
+      </CSSTransitionGroup>
     );
   }
 });
 
 
 
-module.exports = GameItem;
+module.exports = GameItemWrapper;
