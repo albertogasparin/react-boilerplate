@@ -46,7 +46,7 @@ var GameListStore = Reflux.createStore({
   },
 
   onFetchItem: function(id) { 
-    var item = this.findItemById(id);
+    var item = this.findItemById(id) || { id: id };
     
     // axios.get(url, function(response) {
     //   if (response.ok) {
@@ -56,27 +56,32 @@ var GameListStore = Reflux.createStore({
     //   }
     // }
     
-    if(item && !item.status) {
+    if(!item.status) {
 
       item.status = 'loading';
 
       setTimeout( function () {
         var data = { id: id, description: 'Description loaded' };
+        // if(Math.random() > 0.2) {
         Actions.fetchItem.completed(data);
-        // Actions.fetchItem.failed(data);
+        // } else {
+        //   Actions.fetchItem.failed(item);
+        // }
       }, 2000);
-    }
 
-    if(!item) {
-      Actions.fetchItem.failed();
+      // notify of the loading status
+      this.trigger(this.list);
     }
-    
-    this.trigger(this.list);
   },
 
   onFetchItemCompleted: function (data) {
     data.status = 'loaded';
     this.updateItem(data);
+  },
+
+  onFetchItemFailed: function (item) {
+    item.status = 'error';
+    this.trigger(this.list);
   },
   
   onAddItem: function(title) {

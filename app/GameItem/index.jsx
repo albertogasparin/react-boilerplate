@@ -36,6 +36,12 @@ var GameItem = React.createClass({
       );
     }
 
+    if (item.status == 'error') {
+      content = (
+        <strong>ERROR</strong>
+      );
+    }
+
     return (
       <div className="GameItem">
         <CSSTransitionGroup component="div" transitionName="is">
@@ -50,40 +56,35 @@ var GameItem = React.createClass({
 
 var GameItemWrapper = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.listenTo(GameListStore,"onGameListChange")],
+  mixins: [Router.Navigation],
 
   statics: {
-    willTransitionTo: function (transition, params) {
+    willTransitionTo: function (transition, params, query) {
       Actions.fetchItem(params.id);
     },
-    willTransitionFrom: function (transition, self) {
-      // reset state in order to show loading if going to another item
-      self.replaceState( self.getInitialState() );
-    }
   },
   
+  // called on componentMount (so on first route access)
   getInitialState: function () {
-    return { item: {} };
+    var item = GameListStore.findItemById(this.props.params.id);
+    return { item: item };
   },
 
-  onGameListChange: function (list, action) {
-    var item = GameListStore.findItemById(this.props.params.id);
-
+  // called each time we trigger list changes (from the parent)
+  // (but not called on componentMount)
+  componentWillReceiveProps: function (newProps) {
+    var item = GameListStore.findItemById(newProps.params.id);
+    
     if(!item) { // if deleted
       this.replaceWith("/");
       return;
     }
-
     this.setState({ item: item });
   },
 
   render: function () {
     var item = this.state.item;
     
-    if(!item.id) {
-      item.id = this.props.params.id;
-    }
-
     return (
       <CSSTransitionGroup component="div" className="GameItemWrapper g-column g-md66 g-noPad" transitionName="is">
         <GameItem item={item} key={item.id} />
