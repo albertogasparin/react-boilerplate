@@ -3,7 +3,7 @@ var Reflux = require('reflux'),
 
 
 // app modules require
-var Actions = require('../actions');
+var Actions = require('app/actions');
 
 
 
@@ -69,7 +69,7 @@ var GameListStore = Reflux.createStore({
         // }
       }, 2000);
 
-      // notify of the loading status
+      // notify of the loading status -> optimistic update
       this.trigger(this.list);
     }
   },

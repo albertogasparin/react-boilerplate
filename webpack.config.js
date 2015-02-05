@@ -2,12 +2,13 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isProduction = process.env.NODE_ENV == "production";
 
-var cssLoader = 'css!sass?outputStyle=compressed';
+var cssLoader = 'css'
+              + '!autoprefixer?{browsers:["last 3 version", "IE 9"]}'
+              + '!sass?outputStyle=compressed';
 
 if(!isProduction) {
-  cssLoader = 'css?sourceMap' 
-            + '!autoprefixer?{browsers:["last 3 version", "IE 9"]}'
-            + '!sass?outputStyle=expanded&sourceMapEmbed=true';
+  cssLoader = cssLoader.replace('css!', 'css?sourceMap!');
+  cssLoader = cssLoader.replace('=compressed', '=expanded&sourceMapEmbed=true');
 }
 
 
@@ -22,7 +23,7 @@ var config = {
   },
   cache: true,
   resolve: {
-    alias: {},
+    alias: { app: __dirname + '/app' },
     extensions: ['', '.js', '.jsx']
   },
   entry: {

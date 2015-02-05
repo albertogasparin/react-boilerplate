@@ -1,11 +1,12 @@
 // vendor modules require
-var React = require("react"),
+var React = require("react/addons"),
     Reflux = require("reflux"),
     Router = require("react-router");
 
 // app modules require
-var Actions = require("../actions"),
-    GameList = require("../GameList");
+var Actions = require("app/actions"),
+    GameList = require("app/GameList"),
+    GameListStore = require("app/stores/gameList");
 
 // shorthands
 var { Route, DefaultRoute, RouteHandler, Link } = Router;

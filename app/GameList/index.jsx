@@ -4,8 +4,8 @@ var React = require("react/addons"),
     Router = require("react-router");
 
 // app modules require
-var Actions = require("../actions"),
-    GameListStore = require("../stores/gameList");
+var Actions = require("app/actions"),
+    GameListStore = require("app/stores/gameList");
 
 // shorthands
 var { Route, DefaultRoute, RouteHandler, Link } = Router;
