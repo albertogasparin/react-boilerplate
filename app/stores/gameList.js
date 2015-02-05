@@ -42,7 +42,7 @@ var GameListStore = Reflux.createStore({
       }
     }
 
-    this.trigger(this.list, 'update', item);
+    this.trigger(this.list);
   },
 
   onFetchItem: function(id) { 
@@ -89,7 +89,7 @@ var GameListStore = Reflux.createStore({
         newList = this.list.concat(newItem);
 
     this.list = newList;
-    this.trigger(this.list, 'add', newItem); // sends the updated list to all listening components
+    this.trigger(this.list); // sends the updated list to all listening components
   },
 
 
@@ -98,7 +98,7 @@ var GameListStore = Reflux.createStore({
       return item.id != id;
     });
 
-    this.trigger(this.list, 'delete');
+    this.trigger(this.list);
   }
 
 

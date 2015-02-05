@@ -1,5 +1,5 @@
 // vendor modules require
-var React = require("react"),
+var React = require("react/addons"),
     Router = require("react-router");
 
 // app modules require
@@ -24,7 +24,7 @@ var routes = (
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  // Router.run(routes, Router.HistoryLocation, function (Handler, state) {
+  // Add Router.HistoryLocation as a second argument to enable HTML5 history
   Router.run(routes, function (Handler, state) {
     React.render(<Handler params={state.params} query={state.query}/>, document.body);
   });
