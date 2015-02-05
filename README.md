@@ -38,7 +38,7 @@ Where `libname` is the name that you will use with require (es: 'jquery') and `l
 
 ## Testing
 
-To test with Karma install karma-cli or run:
+To test with Karma, install karma-cli or run:
 
 ```
 ./node_modules/karma/bin/karma start
@@ -51,10 +51,10 @@ I've written some test helpers in order to easily mock/stub required modules and
 
 ### Useful resources
 
-http://substantial.com/blog/2014/11/11/test-driven-react-how-to-manually-mock-components/
+http://substantial.com/blog/2014/11/11/test-driven-react-how-to-manually-mock-components/  
 
 
 ### Examples
 
-https://github.com/WRidder/react-spa
-https://github.com/TYRONEMICHAEL/react-component-boilerplate
+https://github.com/WRidder/react-spa  
+https://github.com/TYRONEMICHAEL/react-component-boilerplate  
