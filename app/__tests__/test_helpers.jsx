@@ -17,11 +17,10 @@ if(!Object.assign) {
 
 // Hack to get around react-router's issues with testing. Taken from here:
 // https://github.com/rackt/react-router/issues/437
-function getRouterComponent (routes, props, wrapper) {
-  var div = document.createElement('div');
-
+function getRouterComponent (routes, props) {
   Router.run(routes, function (Handler, state) {
-    var mainComponent = TestUtils.renderIntoDocument(<Handler params={state.params} query={state.query} {...props} />, wrapper || div);
+    // Use React.render to output to DOM. Otherwise use TestUtils.renderIntoDocument 
+    var mainComponent = React.render(<Handler params={state.params} query={state.query} {...props} />, document.body);
     component = TestUtils.findRenderedComponentWithType(mainComponent, Handler);
   });
 

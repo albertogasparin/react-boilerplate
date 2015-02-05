@@ -49,9 +49,12 @@ I've written some test helpers in order to easily mock/stub required modules and
 
 
 
-### Dependencies
+### Useful resources
 
-* React
-* Webpack
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
-* [jsx-loader](https://github.com/petehunt/jsx-loader)
+http://substantial.com/blog/2014/11/11/test-driven-react-how-to-manually-mock-components/
+
+
+### Examples
+
+https://github.com/WRidder/react-spa
+https://github.com/TYRONEMICHAEL/react-component-boilerplate
