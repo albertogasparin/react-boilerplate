@@ -11,8 +11,8 @@ var Actions = require("app/actions"),
 var { Route, DefaultRoute, RouteHandler, Link } = Router;
 var { CSSTransitionGroup } = React.addons;
 
-
-require("./gamelist.scss");
+// style
+require("./index.scss");
 
 
 var GameListItem = React.createClass({
