@@ -15,7 +15,7 @@ Includes:
 
 ```
 npm install
-npm start
+npm run server
 open http://localhost:3000
 ```
 
@@ -41,7 +41,7 @@ Where `libname` is the name that you will use with require (es: 'jquery') and `l
 To test with Karma, install karma-cli or run:
 
 ```
-./node_modules/karma/bin/karma start
+npm run test
 ```
 
 For an example of how to setup a test for a Component, have a look at the `Application/__tests__`.

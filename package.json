@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Boilerplate for Webpack + ReactJS + SCSS with hot code reloading",
   "scripts": {
-    "start": "node server.js"
+    "server": "node server.js",
+    "test": "./node_modules/karma/bin/karma start",
+    "build": "NODE_ENV=production webpack -p --progress --colors"
   },
   "author": "Alberto Gasparin",
   "license": "MIT",
