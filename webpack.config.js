@@ -41,7 +41,8 @@ var config = {
     loaders: [
       { test: /\.jsx$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ },
       { test: /\.scss$/, loaders: ['style', cssLoader] },
-      { test: /\.(png|jpg|jpeg|gif|svg)/, loaders: ["url?limit=10000"] },
+      { test: /\.(png|jpg|jpeg|gif)/, loaders: ['url?limit=8000'] },
+      { test: /\.svg/, loaders: ['url?limit=8000', 'svgo'] },
       { test: /\.woff/, loaders: ['url?limit=50000'] },
       { test: /\.(ttf|eot)/, loaders: ['file'] },
       { test: /\.html/, loaders: ['html'] },
